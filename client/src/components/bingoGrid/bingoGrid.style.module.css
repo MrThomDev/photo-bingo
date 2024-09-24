@@ -1,0 +1,50 @@
+.bingo-grid-container {
+  aspect-ratio: 1/1;
+  margin: auto;
+}
+
+.bingo-grid-container.grid-view {
+  display: grid;
+  gap: 5px;
+  grid-template-columns: repeat(5, 16rem);
+  grid-template-rows: repeat(5, 16rem);
+  width: 85rem;
+  justify-items: center;
+  align-items: center;
+}
+.bingo-grid-container.list-view {
+  display: flex;
+  gap: 2.2rem;
+  flex-direction: column;
+  width: 80%;
+  justify-content: center;
+  align-items: center;
+}
+
+.freeSpace {
+  grid-column: 3/4;
+  grid-row: 3/4;
+  aspect-ratio: 1/1;
+}
+.freeSpace.hide {
+  display: none;
+}
+
+.starIcon {
+  margin: auto;
+  width: 100%;
+  color: var(--color-neutral);
+}
+
+@media (max-width: 435px) {
+  .bingo-grid-container {
+    gap: 0.3rem;
+
+    margin: 0;
+  }
+
+  .bingo-grid-container.list-view {
+    width: 100%;
+    margin: 0;
+  }
+}

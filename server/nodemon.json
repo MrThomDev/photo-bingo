@@ -1,0 +1,4 @@
+{
+  "ignore": ["src/images/", "src/bingo/lists/"],
+  "verbose": true
+}

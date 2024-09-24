@@ -1,0 +1,57 @@
+.delete-confirm-container.visible {
+  position: absolute;
+  border-radius: 8px;
+  z-index: 1000;
+  background-color: var(--color-bg-btn);
+  margin: auto;
+  padding: 0.8rem 1.6rem;
+  width: 30rem;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+}
+
+.delete-confirm-container.hidden {
+  display: none;
+}
+
+.confirm-txt {
+  font-family: var(--primary-text);
+  text-align: center;
+  font-size: 1.6rem;
+  font-weight: 500;
+  margin-bottom: 1.2rem;
+}
+
+.btn-box {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 0.3rem;
+}
+
+.btn {
+  background-color: var(--color-bg-btn);
+  color: #bc002d;
+  padding: 0.4rem 0.8rem;
+  font-weight: 600;
+  font-size: 1.6rem;
+  font-family: var(--primary-font);
+  border-radius: 8px;
+  border: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.btn:hover {
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Slightly larger shadow on hover */
+  transform: translateY(-2px); /* Slight lift on hover */
+}
+
+.btn:active {
+  transform: translateY(0); /* Reset transform on click */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Reset shadow on click */
+}
+
+.cancel-btn {
+  color: var(--primary-font);
+  font-weight: 500;
+}

@@ -1,0 +1,117 @@
+.delete-list-container {
+  margin: auto;
+  padding: 1rem;
+  max-width: 40rem;
+}
+
+.delete-header {
+  font-family: var(--font-family-header);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-accent-primary);
+  font-size: 3rem;
+  text-align: left;
+  margin-bottom: 1.2rem;
+}
+
+.name-list {
+  list-style-type: none;
+  padding: 0;
+  max-width: 40rem;
+}
+
+.name-item {
+  padding: 0.4rem 0.8rem;
+  border-bottom: 2px solid var(--color-neutral-tint-2);
+  cursor: pointer;
+  font-size: 2.2rem;
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-lite);
+  color: var(--color-neutral);
+  transition: all 0.5s ease;
+}
+
+.card-name {
+  font-family: var(--font-family-primary);
+  font-size: 2.2rem;
+  font-weight: var(--font-weight-regular);
+}
+
+.name-item.expanded {
+  padding-left: 2rem;
+}
+
+.expanded-content {
+  margin-top: 1rem;
+  opacity: 0;
+  transform: translateY(-2rem);
+  height: 0;
+  visibility: hidden;
+  position: absolute; /* Remove it from the normal document flow */
+  transition: opacity 0.5s ease, transform 0.3s ease, height 0.5s ease;
+}
+
+.name-item.expanded .expanded-content {
+  opacity: 1;
+  transform: translateY(0);
+  height: auto;
+  visibility: visible;
+  position: relative;
+}
+
+.confirmation-txt {
+  font-size: 1.6rem;
+  font-family: var(--font-family-primary);
+  color: var(--color-neutral);
+  text-wrap: balance;
+  width: 97%;
+}
+
+.btn {
+  background-color: var(--color-bg-btn);
+  overflow: visible;
+  padding: 0.4rem 0.8rem;
+  margin: 0.5rem 1rem 0.5rem 0;
+  font-weight: 500;
+  font-family: var(--font-family-primary);
+  border-radius: 8px;
+  border: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.btn:hover {
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15); /* Slightly larger shadow on hover */
+  transform: translateY(-2px); /* Slight lift on hover */
+}
+
+.btn:active {
+  transform: translateY(0); /* Reset transform on click */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Reset shadow on click */
+}
+
+.delete-btn {
+  margin-top: 1rem;
+  color: var(--color-accent-primary);
+  font-weight: 700;
+}
+
+.cancel-btn {
+  margin-top: 1rem;
+  color: var(--color-neutral);
+}
+
+@media (max-width: 435px) {
+  .delete-list-container {
+    max-width: 35rem;
+  }
+
+  .delete-header {
+    font-size: 2.5rem;
+    text-align: center;
+  }
+
+  .name-list {
+    max-width: 35rem;
+  }
+}

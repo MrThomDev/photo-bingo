@@ -1,0 +1,80 @@
+.new-card-container {
+  width: 30rem;
+  padding: 1rem;
+  margin: 0rem auto;
+}
+
+.form-text {
+  margin-bottom: 0.8rem;
+  font-size: 2.2rem;
+  font-family: var(--font-family-primary);
+  font-weight: 600;
+  color: var(--color-neutral);
+  letter-spacing: 0.1rem;
+}
+
+input {
+  width: 28rem;
+  padding: 1.2rem 1.6rem;
+  font-size: 1.6rem;
+  font-family: var(--font-family-primary);
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s;
+  outline: none;
+  color: #333;
+}
+
+/* Focus state */
+input:focus {
+  border-color: var(--color-accent-primary);
+  background-color: #fff;
+  box-shadow: 0 0 8px rgba(188, 0, 45, 0.2); /* Subtle shadow */
+}
+
+/* Placeholder text */
+input::placeholder {
+  color: #999;
+}
+
+/* Responsive Design */
+@media (max-width: 435px) {
+  input {
+    font-size: 14px;
+    padding: 10px 14px;
+  }
+}
+
+.char-limit {
+  font-family: var(--font-family-primary);
+  color: #999;
+  margin-top: 0.8rem;
+}
+
+.btn {
+  background-color: rgba(255, 255, 255, 0.547);
+  color: var(--color-accent-primary);
+  display: inline-block;
+  width: auto;
+  margin-top: 1rem;
+  padding: 0.4rem 0.8rem;
+  font-size: 1.6rem;
+  font-weight: var(--font-weight-bold);
+  font-family: var(--font-family-primary);
+  border-radius: 8px;
+  border: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.btn:hover {
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15); /* Slightly larger shadow on hover */
+  transform: translateY(-2px); /* Slight lift on hover */
+}
+
+.btn:active {
+  transform: translateY(0); /* Reset transform on click */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Reset shadow on click */
+}

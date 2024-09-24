@@ -1,0 +1,52 @@
+.photo-submit-container {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1/1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  grid-column: 1/2;
+  grid-row: 2/3;
+}
+
+.choose-image-btn {
+  display: none;
+}
+
+.btn {
+  width: 100%;
+  aspect-ratio: 2/1.8;
+  margin: 0 15%;
+  background-color: rgba(255, 255, 255, 0.547);
+  color: #bc002d;
+  font-weight: 500;
+  border-radius: 8px;
+  border: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.btn:hover {
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15); /* Slightly larger shadow on hover */
+  transform: translateY(-2px); /* Slight lift on hover */
+}
+
+.btn:active {
+  transform: translateY(0); /* Reset transform on click */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Reset shadow on click */
+}
+
+.plus-icon {
+  height: 80%;
+}
+
+@media (max-width: 435px) {
+  .btn {
+    padding: 0.2rem 0.4rem;
+  }
+
+  .plus-icon {
+    height: 80%;
+  }
+}

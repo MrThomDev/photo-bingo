@@ -1,0 +1,65 @@
+.displayList-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  margin-top: 2rem;
+}
+
+.spinner-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 60vh;
+}
+
+.name-title {
+  display: flex;
+  align-self: center;
+  font-size: 3.6rem;
+  margin-bottom: 1rem;
+}
+
+.btn-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.view-btn {
+  align-self: center;
+  background-color: var(--color-bg-btn);
+  color: var(--color-neutral);
+  font-family: var(--font-family-primary);
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  border: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  margin-bottom: 2rem;
+}
+
+.view-btn:hover {
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.view-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 435px) {
+  .displayList-container {
+    margin-top: 0;
+  }
+
+  .btn-container {
+    justify-content: flex-start;
+  }
+}

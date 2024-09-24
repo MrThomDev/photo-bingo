@@ -1,0 +1,40 @@
+.btn {
+  position: relative;
+  border: none;
+  border-radius: 8px;
+  padding: 0.4rem 1rem;
+  background-color: var(--color-bg-btn);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  margin-top: 1rem;
+}
+
+.btn:hover {
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.btn:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.back-icon {
+  width: 2.2rem;
+  stroke-width: 0.2rem;
+}
+.back-icon:hover {
+  color: var(--color-accent-secondary-shade-1);
+}
+
+@media (max-width: 435px) {
+  .btn {
+    position: static;
+    padding: 0.4rem 1rem;
+    margin: 0.2rem 0;
+  }
+
+  .back-icon {
+    width: 1.5rem;
+  }
+}

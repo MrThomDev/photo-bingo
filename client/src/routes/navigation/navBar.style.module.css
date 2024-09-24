@@ -1,0 +1,27 @@
+.navigation-container {
+  display: flex;
+  gap: 1rem;
+}
+
+.link {
+  text-decoration: none;
+  color: var(--color-neutral);
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.link:hover {
+  color: var(--color-accent-primary);
+  transform: scale(1.1);
+}
+
+.header {
+  font-family: var(--font-family-header);
+  color: var(--color-accent-primary);
+  font-size: 1.8rem;
+}
+
+@media (max-width: 435px) {
+  .home-btn {
+    margin: 0;
+  }
+}
