@@ -6,7 +6,7 @@ export const CardContext = createContext({
   activeCard: null, //This is an instance of the Card class. This is how React will interact with all local Card data.
   setActiveCard: () => null, //The useState setter for activeCard
   dummyUpdate: null, //Because it is less effcient to use setActiveCard every time there is a change in data, we use this dummy update to triger rerenders so that the correct data is still displayed.
-  setDummyUpdate: () => null, //the useState setter for dummyUpdate
+  setDummyUpdate: () => null, //the useState setter for dummyUpdate. To use less imports, you can call the activeCard.reRender() method which will update dummyUpdate and cause the rerender this is meant for.
 });
 
 export const CardProvider = ({ children }) => {
@@ -126,7 +126,7 @@ export const CardProvider = ({ children }) => {
       }
     }
 
-    toJSON() {
+    toArray() {
       return this.cells.map((cell) => {
         return {
           challenge: cell.challenge,
@@ -134,20 +134,6 @@ export const CardProvider = ({ children }) => {
           index: cell.index,
         };
       });
-    }
-
-    updateLocalCard(nameArr, index) {
-      const cardCopy = this.toJSON();
-      cardCopy[index].photos = nameArr;
-
-      const replacementCard = new Card(cardCopy, this.name);
-      setDummyUpdate((old) => old + 1);
-      return replacementCard;
-    }
-
-    addToCellPhotos(nameArr, index) {
-      this.cell(index).addPhotos(nameArr);
-      setDummyUpdate((old) => old + 1);
     }
 
     reRender() {

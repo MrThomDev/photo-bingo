@@ -13,7 +13,7 @@ import PhotoSubmitBtn from "../inputs/photoSubmitBtn.component";
 import styles from "./bingoCell.style.module.css";
 
 const BingoCell = ({ index, isGridView }) => {
-  const { activeCard, dummyUpdate, setDummyUpdate } = useContext(CardContext);
+  const { activeCard, dummyUpdate } = useContext(CardContext);
   const [isPhotoUploading, setIsPhotoUploading] = useState(false);
   const [photoLinkState, setPhotoLinkState] = useState("none");
   const [isFinished, setIsFinished] = useState(false);

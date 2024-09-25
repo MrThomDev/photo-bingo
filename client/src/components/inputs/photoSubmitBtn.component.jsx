@@ -76,12 +76,12 @@ const PhotoSubmitBtn = ({ index, setIsPhotoUploading, setPhotoLinkState }) => {
   };
 
   const updateServer = async (photosArr) => {
-    const serverCopy = new Card(activeCard.toJSON(), activeCard.name);
+    const serverCopy = new Card(activeCard.toArray(), activeCard.name);
     serverCopy.cell(index).addPhotos(photosArr);
     try {
       const { success, payload: updateResponse } = await updateCard(
         serverCopy.name,
-        serverCopy.toJSON()
+        serverCopy.toArray()
       );
 
       if (success === false) {

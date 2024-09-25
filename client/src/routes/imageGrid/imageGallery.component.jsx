@@ -22,7 +22,7 @@ const ImageGallery = () => {
   const [isLoadingImages, setIsLoadingImages] = useState(true);
   const [imgIndex, setImgIndex] = useState(null);
   const { getPhotosOfArray, deletePhoto, updateCard } = useContext(APIContext);
-  const { activeCard, setDummyUpdate } = useContext(CardContext);
+  const { activeCard } = useContext(CardContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -61,7 +61,7 @@ const ImageGallery = () => {
     try {
       const serverResponse = await updateCard(
         activeCard.name,
-        activeCard.toJSON()
+        activeCard.toArray()
       );
 
       if (serverResponse.success === false) {
@@ -96,7 +96,7 @@ const ImageGallery = () => {
         updateServerBingoData();
         setIsDeleteConfirmOpen(false);
         if (activeCard.cell(index).photos === null) {
-          setDummyUpdate((old) => old + 1);
+          activeCard.reRender();
           navigate(-1);
         }
       }
