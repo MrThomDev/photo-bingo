@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "npm run watch --prefix server",
+    "install-server": "npm install --prefix server",
     "client": "npm start --prefix client",
+    "install-client": "npm install --prefix client",
     "build": "npm run build --prefix client",
     "watch": "npm run server & npm run client",
     "deploy": "npm run build --prefix client && npm start --prefix server"
