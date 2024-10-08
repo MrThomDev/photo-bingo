@@ -41,11 +41,15 @@ Default: 1
   --color-accent-primary: #bc002d;
   --color-accent-primary-tint-1: #c93357;
   --color-accent-primary-tint-2: #d76681;
+  --color-accent-primary-tint-3: #e499ab;
   --color-accent-primary-shade-1: #960024;
   --color-accent-primary-shade-2: #71001b;
   --color-accent-secondary: #57b9b9;
   --color-accent-secondary-shade-1: #469494;
   --color-accent-secondary-shade-2: #346f6f;
+  --color-accent-secondary-tint-1: #79c7c7;
+  --color-accent-secondary-tint-2: #9ad5d5;
+  --color-accent-secondary-tint-3: #bce3e3;
   --color-accent-tertiary: #223e4e;
   --color-bg: #f5f5f5;
   --color-bg-btn: #ffffff;

@@ -7,11 +7,17 @@ export const CardContext = createContext({
   setActiveCard: () => null, //The useState setter for activeCard
   dummyUpdate: null, //Because it is less effcient to use setActiveCard every time there is a change in data, we use this dummy update to triger rerenders so that the correct data is still displayed.
   setDummyUpdate: () => null, //the useState setter for dummyUpdate. To use less imports, you can call the activeCard.reRender() method which will update dummyUpdate and cause the rerender this is meant for.
+  cardTypes: [null], //store all cardtypes when page first loads
+  setCardTypes: () => null, //Sets cardTypes
+  cardTree: {},
+  setCardTree: () => null,
 });
 
 export const CardProvider = ({ children }) => {
   const [activeCard, setActiveCard] = useState(null);
   const [dummyUpdate, setDummyUpdate] = useState(0);
+  const [cardTypes, setCardTypes] = useState([null]);
+  const [cardTree, setCardTree] = useState({});
 
   const checkArray = (array) => {
     if (Array.isArray(array) === false) {
@@ -107,13 +113,14 @@ export const CardProvider = ({ children }) => {
   }
 
   class Card {
-    constructor(cellArray, cardName) {
+    constructor(cardType, cardName, cellArray) {
       const classArray = cellArray.map((cell, index) => {
         return new CardCell(cell.challenge, cell.photos, index);
       });
 
-      this.cells = classArray;
+      this.type = cardType;
       this.name = cardName;
+      this.cells = classArray;
     }
 
     cell(index) {
@@ -131,7 +138,6 @@ export const CardProvider = ({ children }) => {
         return {
           challenge: cell.challenge,
           photos: cell.photos,
-          index: cell.index,
         };
       });
     }
@@ -148,6 +154,10 @@ export const CardProvider = ({ children }) => {
     setDummyUpdate,
     CardCell,
     Card,
+    cardTypes,
+    setCardTypes,
+    cardTree,
+    setCardTree,
   };
   return <CardContext.Provider value={value}>{children}</CardContext.Provider>;
 };

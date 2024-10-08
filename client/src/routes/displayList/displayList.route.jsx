@@ -13,7 +13,7 @@ import BingoGrid from "../../components/bingoGrid/bingoGrid.component";
 import styles from "./displayList.style.module.css";
 
 const DisplayList = () => {
-  const { listName } = useParams();
+  const { cardType, cardName } = useParams();
   const [isGridView, setIsGridView] = useState(true);
   const [isLoadingCard, setIsLoadingCard] = useState(true);
   const { getCard } = useContext(APIContext);
@@ -32,9 +32,9 @@ const DisplayList = () => {
   useEffect(() => {
     setIsLoadingCard(true);
     const fetchBingoCardData = async () => {
-      const { success, payload: cardData } = await getCard(listName);
+      const { success, payload: cardData } = await getCard(cardType, cardName);
       if (success) {
-        const selectedCard = new Card(cardData, listName);
+        const selectedCard = new Card(cardType, cardName, cardData);
         setActiveCard((old) => selectedCard);
         setIsLoadingCard(false);
         return;
@@ -63,7 +63,7 @@ const DisplayList = () => {
     };
 
     fetchBingoCardData();
-  }, [listName]);
+  }, [cardName]);
 
   useEffect(() => {
     if (!activeCard) {

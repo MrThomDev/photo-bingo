@@ -46,8 +46,8 @@ header {
   display: flex;
   width: 40rem;
   margin: auto;
-  margin-bottom: 3rem;
-  justify-content: space-around;
+  margin-bottom: 4rem;
+  justify-content: space-between;
 }
 
 .btn {
@@ -58,7 +58,6 @@ header {
   border: none;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   cursor: pointer;
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
 .btn:hover {
@@ -74,14 +73,30 @@ header {
 .new-btn.link {
   color: var(--color-accent-secondary);
   font-weight: 300;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 .delete-btn.link {
   font-weight: 300;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.cards-header {
+  color: var(--color-accent-primary);
+  font-family: var(--font-family-header);
+  font-weight: var(--font-weight-bold);
+  font-size: 2.4rem;
+  letter-spacing: 0.2rem;
+}
+
+.cards-container {
+  display: flex;
+  justify-content: space-between;
 }
 
 .link {
   font-family: var(--font-family-primary);
-  font-size: 2.2rem;
+  font-size: 2rem;
+  letter-spacing: -0.5px;
   font-weight: var(--font-weight-regular);
   cursor: pointer;
   text-decoration: none;

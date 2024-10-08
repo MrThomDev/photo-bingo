@@ -3,7 +3,7 @@ const app = express();
 const path = require("path");
 const cors = require("cors");
 
-const listsRouter = require("./routes/lists.router");
+const cardsRouter = require("./routes/cards.router");
 const imageRouter = require("./routes/imageRoute/image.router");
 
 app.use(
@@ -16,7 +16,7 @@ app.use(express.json());
 
 const publicPath = path.join(__dirname, "..", "public");
 app.use(express.static(publicPath));
-app.use("/lists", listsRouter);
+app.use("/cards", cardsRouter);
 app.use("/images", imageRouter);
 
 app.use((req, res) => {

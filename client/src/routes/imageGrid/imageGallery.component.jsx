@@ -15,7 +15,9 @@ import styles from "./imageGallery.style.module.css";
 const ImageGallery = () => {
   const { index: stringIndex } = useParams();
   const index = Number(stringIndex);
+  const [page, setPage] = useState(1);
   const [images, setImages] = useState([]);
+  const [isFetching, setIsFetching] = useState(false);
   const [isModuleOpen, setIsModuleOpen] = useState(false);
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
   const [largeImageSrc, setLargeImageSrc] = useState(null);
@@ -25,28 +27,56 @@ const ImageGallery = () => {
   const { activeCard } = useContext(CardContext);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchImages = async () => {
-      try {
-        const images = await getPhotosOfArray(activeCard.cell(index).photos);
+  const loadNextPageOfPhotos = async (page) => {
+    try {
+      setIsFetching(true);
+      const images = await getPhotosOfArray(
+        activeCard.cell(index).photos.slice(page * 9 - 9, page * 9)
+      );
 
-        if (images.success) {
-          setImages((old) => images.payload);
-          setIsLoadingImages((old) => false);
-        }
-
-        if (images.success === false) {
-          throw new Error(images.payload);
-        }
-      } catch (error) {
-        console.error(
-          `The server resoponded with a failure message:\n\n${error}\n\n`
-        );
+      if (images.success) {
+        setImages((old) => {
+          if (page === 1) {
+            return images.payload;
+          } else {
+            return [...old, ...images.payload];
+          }
+        });
+        setIsLoadingImages((old) => false);
       }
-    };
 
-    fetchImages();
-  }, [index, activeCard]);
+      if (images.success === false) {
+        throw new Error(images.payload);
+      }
+    } catch (error) {
+      console.error(
+        `The server resoponded with a failure message:\n\n${error}\n\n`
+      );
+    } finally {
+      setIsFetching(false);
+    }
+  };
+
+  useEffect(() => {
+    const photoNames = activeCard.cell(index).photos;
+    if (photoNames.length >= page * 9 - 8) {
+      loadNextPageOfPhotos(page);
+    }
+  }, [index, activeCard, page]);
+
+  const handleScroll = () => {
+    if (
+      window.innerHeight + window.scrollY + 200 >=
+      document.documentElement.scrollHeight
+    ) {
+      setPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const handleImageClick = (imgSrc) => {
     setLargeImageSrc((old) => imgSrc);
@@ -60,6 +90,7 @@ const ImageGallery = () => {
   const updateServerBingoData = async () => {
     try {
       const serverResponse = await updateCard(
+        activeCard.type,
         activeCard.name,
         activeCard.toArray()
       );
@@ -74,7 +105,7 @@ const ImageGallery = () => {
         );
       }
     } catch (error) {
-      console.error(error.payload);
+      console.error(error.message.payload);
     }
   };
 
@@ -147,7 +178,10 @@ const ImageGallery = () => {
           {images.map((photo, index) => {
             if (photo.data === "photo not found") {
               return (
-                <div key={`cell-${index}`} className={styles[`error-cell`]}>
+                <div
+                  key={`cell-${index}-error`}
+                  className={styles[`error-cell`]}
+                >
                   <p>
                     Photo: {photo.photoName} <b>could not be found</b>
                   </p>
@@ -155,7 +189,10 @@ const ImageGallery = () => {
               );
             }
             return (
-              <div key={`cell-${index}`} className={styles[`photo-cell`]}>
+              <div
+                key={`cell-${index}-${photo.name}`}
+                className={styles[`photo-cell`]}
+              >
                 <img
                   key={photo.photoName}
                   onClick={() => {
@@ -176,6 +213,10 @@ const ImageGallery = () => {
             );
           })}
         </div>
+        {isLoadingImages && <p>Loading...</p>}
+      </div>
+      <div className={`${styles[`loader`]}`}>
+        {isFetching && <p className={styles[`loading-txt`]}>Loading...</p>}
       </div>
     </div>
   );

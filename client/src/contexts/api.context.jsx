@@ -1,10 +1,15 @@
 import { createContext } from "react";
 
+import { Slide } from "react-toastify";
+
 import axios from "axios";
 
 export const APIContext = createContext({
   serverURl: null,
   getAllCards: async () => null, //fetches list of all card names from server
+  getAllCardTypes: async () => null, // returns an array with all card types as strings
+  getCardTree: async () => null, // fetches a JS object thats keys are card types. Each card Type has an array of card names belonging to that type
+  getNamesByType: async () => null, //returns all card names of specified type
   getCard: async () => null, //gets a specific card with it's data from server
   deleteCard: async () => null, //delets card and ALL of it's data from server
   makeCard: async () => null, //asks the server to make a random card and give it with a name the user provides. Returns new card.
@@ -12,6 +17,7 @@ export const APIContext = createContext({
   deletePhoto: async () => null, //delets photo from server
   updateCard: async () => null, //updates a card with new data (the list of photo names in a cells array)
   savePhotos: async () => null, //saves photo files to server.
+  toastStyle: {},
 });
 
 export const APIProvider = ({ children }) => {
@@ -34,18 +40,68 @@ export const APIProvider = ({ children }) => {
       }
     } catch (error) {
       console.error(error);
-      return error;
+      return error.response.data;
     }
   }
 
-  async function getCard(cardName) {
+  async function getAllCardTypes() {
     try {
+      const { data: typesResponse } = await axios.get(
+        `${serverUrl}/cards/cardTypes`
+      );
+
+      if (!typesResponse.success) {
+        throw new Error(typesResponse);
+      }
+
+      if (typesResponse.success) {
+        return typesResponse;
+      }
+    } catch (error) {
+      return error.response.data;
+    }
+  }
+
+  async function getCardTree() {
+    try {
+      const { data: cardTreeResponse } = await axios.get(
+        `${serverUrl}/cards/cardTree`
+      );
+
+      return cardTreeResponse;
+    } catch (error) {
+      return error.response.data;
+    }
+  }
+
+  async function getNamesByType(cardType) {
+    try {
+      const { data: cardNames } = await axios.get(
+        `${serverUrl}/cards/names/${cardType}`
+      );
+
+      if (!cardNames.success) {
+        throw new Error(cardNames.payload);
+      }
+
+      return cardNames;
+    } catch (error) {
+      console.error(`Failed to fetch card names by type.`);
+      return error.response.data;
+    }
+  }
+
+  async function getCard(cardType, cardName) {
+    try {
+      if (!cardType || cardType === "") {
+        throw new Error({ success: false, payload: "Invalid Card type given" });
+      }
       if (!cardName || cardName === "") {
         throw new Error({ success: false, payload: "Invalid Card name given" });
       }
 
       const { data: fetchedCard } = await axios.get(
-        `${serverUrl}/lists/list/name/${cardName}`
+        `${serverUrl}/cards/card/${cardType}/${cardName}`
       );
 
       if (fetchedCard.success) {
@@ -56,14 +112,14 @@ export const APIProvider = ({ children }) => {
         throw new Error(fetchedCard);
       }
     } catch (error) {
-      return error;
+      return error.response.data;
     }
   }
 
-  async function deleteCard(cardName) {
+  async function deleteCard(cardType, cardName) {
     try {
       const { data: deleteResponse } = await axios.delete(
-        `${serverUrl}/lists/list/save/${cardName}`
+        `${serverUrl}/cards/card/delete/${cardType}/${cardName}`
       );
 
       if (deleteResponse.success === false) {
@@ -75,16 +131,16 @@ export const APIProvider = ({ children }) => {
       }
     } catch (error) {
       console.error(
-        `Server replied with the following error: ${error.payload}`
+        `Server replied with the following error: ${error.response.data.payload}`
       );
-      return error;
+      return error.response.data;
     }
   }
 
-  async function makeCard(serverName) {
+  async function makeCard(cardType, serverName) {
     try {
       const { data: newCardResponse } = await axios.post(
-        `${serverUrl}/lists/list/newList/save/${serverName}`
+        `${serverUrl}/cards/card/newCard/${cardType}/${serverName}`
       );
 
       if (newCardResponse.success === false) {
@@ -95,8 +151,8 @@ export const APIProvider = ({ children }) => {
         return newCardResponse;
       }
     } catch (error) {
-      console.error(error.payload);
-      return error;
+      console.error(error.response.data);
+      return error.response.data;
     }
   }
 
@@ -117,7 +173,7 @@ export const APIProvider = ({ children }) => {
         return fetchResponse;
       }
     } catch (error) {
-      return error;
+      return error.response.data;
     }
   }
 
@@ -135,14 +191,14 @@ export const APIProvider = ({ children }) => {
         throw new Error(deleteResponse);
       }
     } catch (error) {
-      return error;
+      return error.response.data;
     }
   }
 
-  async function updateCard(cardName, cardData) {
+  async function updateCard(cardType, cardName, cardData) {
     try {
       const { data: response } = await axios.put(
-        `${serverUrl}/lists/list/update/${cardName}`,
+        `${serverUrl}/cards/card/update/${cardType}/${cardName}`,
         cardData
       );
 
@@ -154,7 +210,7 @@ export const APIProvider = ({ children }) => {
         return response;
       }
     } catch (error) {
-      return error;
+      return error.response.data;
     }
   }
 
@@ -179,13 +235,31 @@ export const APIProvider = ({ children }) => {
         return photoResponse;
       }
     } catch (error) {
-      return error;
+      return error.response.data;
     }
   }
+
+  const toastStyle = {
+    position: "bottom-right",
+    autoClose: 5000,
+    theme: "colored",
+    transition: Slide,
+    style: {
+      backgroundColor: "#bc002d",
+      color: "white",
+      fontSize: "1.6rem",
+    },
+    progressStyle: {
+      background: "linear-gradient(to right, #e68600, #ff9500, #ffa01a)",
+    },
+  };
 
   const value = {
     serverUrl,
     getAllCards,
+    getAllCardTypes,
+    getCardTree,
+    getNamesByType,
     getCard,
     deleteCard,
     makeCard,
@@ -193,6 +267,7 @@ export const APIProvider = ({ children }) => {
     deletePhoto,
     updateCard,
     savePhotos,
+    toastStyle,
   };
   return <APIContext.Provider value={value}>{children}</APIContext.Provider>;
 };

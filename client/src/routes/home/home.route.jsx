@@ -1,67 +1,45 @@
 import { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 
-import { toast, Slide } from "react-toastify";
+import { toast } from "react-toastify";
 
 import { APIContext } from "../../contexts/api.context";
+import { CardContext } from "../../contexts/card.context";
 
-import RefreshIcon from "../../icons/refresh.icon";
+import DropDownCard from "../../components/dropDown/dropDown.card";
 
 import styles from "./home.style.module.css";
 
 const Home = () => {
-  const [listNames, setListNames] = useState([]);
-  const [fetchFailed, setFetchFailed] = useState(false);
-  const { getAllCards } = useContext(APIContext);
-
-  const serverToClientName = (name) => {
-    const clientSafeName = name.replaceAll("_", " ");
-    return clientSafeName;
-  };
+  const { getCardTree, toastStyle } = useContext(APIContext);
+  const { setCardTypes, cardTree, setCardTree } = useContext(CardContext);
 
   useEffect(() => {
     const fetchCards = async () => {
-      const { success, payload: cards } = await getAllCards();
-      setListNames(cards);
-      setFetchFailed(!success);
+      const { success: cardTreeSuccess, payload: cardTree } =
+        await getCardTree();
 
-      if (!success) {
-        console.error(cards);
+      if (!cardTreeSuccess) {
+        console.error(cardTree);
         toast.error(
-          `Failed to retrive card names from server. Failure message: "${
-            !cards
+          `Failed to retrive card types and names from server. Failure message: "${
+            !cardTree
               ? "There is a problem with the connection. Could not reach server."
-              : cards
+              : cardTree
           }"`,
-          {
-            position: "bottom-right",
-            autoClose: 5000,
-            theme: "colored",
-            transition: Slide,
-            style: {
-              backgroundColor: "#bc002d",
-              color: "white",
-              fontSize: "1.6rem",
-            },
-            progressStyle: {
-              background:
-                "linear-gradient(to right, #e68600, #ff9500, #ffa01a)",
-            },
-          }
+          toastStyle
         );
-        setFetchFailed(true);
+        return;
       }
+      setCardTree(cardTree);
     };
 
     fetchCards();
   }, []);
 
-  const fetchFail = (
-    <div className={styles[`fetch-fail`]}>
-      Connection <b>failed</b>. <em>Refresh </em>
-      <RefreshIcon className={styles[`refresh-icon`]} /> needed.
-    </div>
-  );
+  useEffect(() => {
+    setCardTypes(Object.keys(cardTree));
+  }, [cardTree]);
 
   return (
     <div className={styles[`home-page-container`]}>
@@ -96,21 +74,17 @@ const Home = () => {
             Delete Card
           </Link>
         </div>
-        <div className={`${styles[`game-list-container`]}`}>
-          <h2 className={styles[`card-List-title`]}>Existing Cards</h2>
-          {fetchFailed
-            ? fetchFail
-            : listNames.map((name) => {
-                return (
-                  <Link
-                    key={name}
-                    to={`/list/${name}`}
-                    className={styles[`link`]}
-                  >
-                    {serverToClientName(name)}
-                  </Link>
-                );
-              })}
+        <h2 className={styles[`cards-header`]}>Existing Cards</h2>
+        <div className={styles[`cards-container`]}>
+          {Object.keys(cardTree).map((type) => {
+            return (
+              <DropDownCard
+                key={`${type}`}
+                cardType={type}
+                typeNames={cardTree[type]}
+              />
+            );
+          })}
         </div>
       </main>
     </div>

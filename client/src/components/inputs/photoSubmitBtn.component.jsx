@@ -11,7 +11,7 @@ import PlusIcon from "../../icons/plus.icon";
 
 const PhotoSubmitBtn = ({ index, setIsPhotoUploading, setPhotoLinkState }) => {
   const { savePhotos, updateCard } = useContext(APIContext);
-  const { activeCard, Card } = useContext(CardContext);
+  const { activeCard, setActiveCard, Card } = useContext(CardContext);
 
   const photoServerName = () => {
     const serverSafeName = activeCard
@@ -76,10 +76,15 @@ const PhotoSubmitBtn = ({ index, setIsPhotoUploading, setPhotoLinkState }) => {
   };
 
   const updateServer = async (photosArr) => {
-    const serverCopy = new Card(activeCard.toArray(), activeCard.name);
+    const serverCopy = new Card(
+      activeCard.type,
+      activeCard.name,
+      activeCard.toArray()
+    );
     serverCopy.cell(index).addPhotos(photosArr);
     try {
       const { success, payload: updateResponse } = await updateCard(
+        serverCopy.type,
         serverCopy.name,
         serverCopy.toArray()
       );
@@ -91,7 +96,8 @@ const PhotoSubmitBtn = ({ index, setIsPhotoUploading, setPhotoLinkState }) => {
       }
 
       if (success) {
-        activeCard.cell(index).addPhotos(photosArr);
+        setActiveCard(serverCopy);
+        console.info(activeCard.cell(index).photos);
         setIsPhotoUploading(false);
         console.info(
           `Server accepted Card Update. Cell "${
@@ -100,7 +106,7 @@ const PhotoSubmitBtn = ({ index, setIsPhotoUploading, setPhotoLinkState }) => {
         );
       }
     } catch (error) {
-      console.error(error);
+      console.error(error.message);
     }
   };
 

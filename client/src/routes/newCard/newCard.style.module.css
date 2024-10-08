@@ -1,7 +1,41 @@
 .new-card-container {
-  width: 30rem;
+  width: 35rem;
   padding: 1rem;
   margin: 0rem auto;
+}
+
+.header-text {
+  font-family: var(--font-family-header);
+  font-weight: var(--font-weight-bold);
+  font-size: 2.8rem;
+  margin-bottom: 1rem;
+}
+
+.type-select-text {
+  font-family: var(--font-family-primary);
+  margin-bottom: 1.6rem;
+  font-size: 2rem;
+  font-weight: var(--font-weight-lite);
+  text-wrap: pretty;
+}
+.type-select-text b {
+  color: var(--color-accent-primary);
+}
+
+.card-type-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 22%);
+  gap: 4%;
+  margin-bottom: 2.4rem;
+}
+
+.btn-type.selected {
+  background-color: var(--color-accent-primary-tint-2);
+  color: #fff;
+}
+
+.card-submit-container.hide {
+  display: none;
 }
 
 .form-text {
@@ -77,4 +111,46 @@ input::placeholder {
 .btn:active {
   transform: translateY(0); /* Reset transform on click */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Reset shadow on click */
+}
+
+/* CSS TRANSITION */
+
+@keyframes cardEnter {
+  0% {
+    opacity: 0;
+    transform: translateY(-3rem);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cardExit {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-3rem);
+  }
+}
+
+.submit-enter {
+  animation: cardEnter 300ms ease-in-out forwards;
+}
+
+.submit-enter-active {
+  animation: cardEnter 300ms ease-in-out forwards;
+}
+
+.submit-exit {
+  animation: cardExit 300ms ease-in-out forwards;
+}
+
+.submit-exit-active {
+  animation: cardExit 300ms ease-in-out forwards;
 }

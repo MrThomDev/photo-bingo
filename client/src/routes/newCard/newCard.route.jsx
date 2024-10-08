@@ -1,17 +1,39 @@
-import { useState, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { toast, Slide } from "react-toastify";
+import { toast } from "react-toastify";
+
+import { CSSTransition } from "react-transition-group";
 
 import { APIContext } from "../../contexts/api.context";
+import { CardContext } from "../../contexts/card.context";
 
 import styles from "./newCard.style.module.css";
 
 const NewCard = () => {
   const [name, setName] = useState("");
   const [nameLength, setNameLength] = useState("");
+  const [selectedType, setSelectedType] = useState(null);
   const navigate = useNavigate();
-  const { makeCard } = useContext(APIContext);
+  const { makeCard, getCardTree, toastStyle } = useContext(APIContext);
+  const { cardTypes, cardTree, setCardTree } = useContext(CardContext);
+
+  useEffect(() => {
+    const fetchCardTree = async () => {
+      if (Object.keys(cardTree).length === 0) {
+        const { success, payload: cardTreeResponse } = await getCardTree();
+        if (success) {
+          setCardTree(cardTreeResponse);
+        } else {
+          toast.error(
+            `There was a problem fetching card type and name data. Failure message: ${cardTreeResponse}`,
+            toastStyle
+          );
+        }
+      }
+    };
+    fetchCardTree();
+  }, []);
 
   const serverToClientName = () => {
     const serverSafeName = name.trim().replaceAll(" ", "_");
@@ -38,48 +60,32 @@ const NewCard = () => {
       console.error("No name entered");
       toast.error(
         "Cards must have a name. Please enter a name. The name may only contain letters, numbers, and spaces.",
-        {
-          position: "top-right",
-          autoClose: 5000,
-          theme: "colored",
-          transition: Slide,
-          style: {
-            backgroundColor: "#bc002d",
-            color: "white",
-            fontSize: "1.6rem",
-          },
-          progressStyle: {
-            background: "linear-gradient(to right, #e68600, #ff9500, #ffa01a)",
-          },
-        }
+        toastStyle
       );
       return;
     }
     const serverName = serverToClientName(name);
     try {
-      const { success, payload: cardResponse } = await makeCard(serverName);
+      const { success, payload: cardResponse } = await makeCard(
+        selectedType,
+        serverName
+      );
 
       if (success) {
-        navigate(`/list/${serverName}`);
+        const { success, payload: updatedCardTree } = await getCardTree();
+        if (success) {
+          setCardTree(updatedCardTree);
+        } else {
+          toast.error(
+            `New card was saved but there was a problem updating the local card type and card name data. Failure message: ${updatedCardTree}`
+          );
+        }
+        navigate(`/display/card/${selectedType}/${serverName}`);
       }
       if (success === false) {
         toast.error(
           `New card was not created. Server responded with a failure message. Error: "${cardResponse}"`,
-          {
-            position: "bottom-right",
-            autoClose: 5000,
-            theme: "colored",
-            transition: Slide,
-            style: {
-              backgroundColor: "#bc002d",
-              color: "white",
-              fontSize: "1.6rem",
-            },
-            progressStyle: {
-              background:
-                "linear-gradient(to right, #e68600, #ff9500, #ffa01a)",
-            },
-          }
+          toastStyle
         );
         throw new Error(cardResponse);
       }
@@ -91,20 +97,67 @@ const NewCard = () => {
   };
   return (
     <div className={`${styles[`new-card-container`]}`}>
-      <p className={`${styles[`form-text`]}`}>New Card Name</p>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          id="nameInput"
-          placeholder="Enter name"
-          value={name}
-          onChange={handleChange}
-        />
-      </form>
-      <p className={`${styles[`char-limit`]}`}>{`${nameLength}`} / 30 </p>
-      <button className={`${styles[`btn`]}`} onClick={handleSubmit}>
-        submit
-      </button>
+      <h1 className={styles[`header-text`]}>Create New Card</h1>
+      <div className={styles[`card-type-select-container`]}>
+        <h2 className={styles[`type-select-text`]}>
+          <b>Select</b> the card type you would like to create
+        </h2>
+        <div className={styles[`card-type-grid`]}>
+          {cardTypes.map((type, index) => {
+            return (
+              <button
+                key={`${index}-${type}`}
+                className={`${styles[`btn-type`]} ${styles[`btn`]} ${
+                  type === selectedType ? styles[`selected`] : ""
+                }`}
+                onClick={() => {
+                  if (selectedType === type) {
+                    setSelectedType(null);
+                    return;
+                  }
+                  if (selectedType !== type) {
+                    setSelectedType(type);
+                    return;
+                  }
+                }}
+              >
+                {type}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+      <CSSTransition
+        in={selectedType}
+        timeout={300}
+        classNames={{
+          enter: styles["submit-enter"],
+          enterActive: styles["submit-enter-active"],
+          exit: styles["submit-exit"],
+          exitActive: styles["submit-exit-active"],
+        }}
+        unmountOnExit
+      >
+        <div className={`${styles[`card-submit-container`]}`}>
+          <p className={`${styles[`form-text`]}`}>
+            New {`${selectedType ? selectedType.toUpperCase() : "😅"}`} Card
+            Name
+          </p>
+          <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              id="nameInput"
+              placeholder="Enter name"
+              value={name}
+              onChange={handleChange}
+            />
+          </form>
+          <p className={`${styles[`char-limit`]}`}>{`${nameLength}`} / 30 </p>
+          <button className={`${styles[`btn`]}`} onClick={handleSubmit}>
+            submit
+          </button>
+        </div>
+      </CSSTransition>
     </div>
   );
 };

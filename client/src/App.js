@@ -13,7 +13,10 @@ function App() {
     <Routes>
       <Route path="/" element={<NavBar />}>
         <Route index element={<Home />} />
-        <Route path="/list/:listName" element={<DisplayList />} />
+        <Route
+          path="/display/card/:cardType/:cardName"
+          element={<DisplayList />}
+        />
         <Route path="/images/grid/:index" element={<ImageGallery />} />
         <Route path="/newCard" element={<NewCard />} />
         <Route path="deleteLists" element={<DeleteLists />} />
