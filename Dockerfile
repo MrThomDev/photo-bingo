@@ -1,5 +1,6 @@
 # Use the latest LTS version of Node.js on Alpine Linux
 FROM node:lts-alpine
+# COPY server/src/bingo/lists/cards.json /app/server/src/bingo/lists/
 
 # Set the working directory inside the container
 WORKDIR /app
@@ -15,20 +16,20 @@ RUN npm run install-client --omit=dev
 COPY server/package*.json server/
 RUN npm run install-server --omit-dev
 
+# Define volumes for persistent data
+VOLUME ["/app/server/src/bingo", "/app/server/src/images"]
+
+# Copy the server source code
+# COPY server/ server/
+COPY --chown=node:node server/ server/
+
 # Copy the client source code and build the client
 COPY client/ client/
 RUN npm run build --prefix client
 
-# Copy the server source code
-##COPY server/ server/
-COPY --chown=node:node server/ server/
-
 # Change ownership and set permissions for the directories
 RUN chown -R node:node /app/server/src/images /app/server/src/bingo
 RUN chmod -R u+rw /app/server/src/images /app/server/src/bingo
-
-# Define volumes for persistent data
-VOLUME ["/app/server/src/bingo", "/app/server/src/images"]
 
 # Change to a non-root user for security
 USER node

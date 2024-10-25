@@ -1,9 +1,12 @@
+// image.model.js handels the fetching and manipulation of all data for the image API.
+
 const { error } = require("console");
-const fs = require("fs").promises;
-const path = require("path");
+const fs = require("fs").promises; //This module handles the reading of and the writting to the drive. This is the promise version of FS so BE MINDFUL of ASYNC behaviors
+const path = require("path"); //Allows us to have an environment independent way to navigate the drive
 
-const photoFolderPath = path.join(__dirname, "..", "..", "images");
+const photoFolderPath = path.join(__dirname, "..", "..", "images"); //The path images are saved.
 
+//get a single image
 async function pullImage(targetImage) {
   const imagePath = path.join(photoFolderPath, `${targetImage}.jpg`);
 
@@ -15,6 +18,7 @@ async function pullImage(targetImage) {
   }
 }
 
+//get an array of images
 async function pullImageArray(imageArray) {
   if (!Array.isArray(imageArray)) {
     return {
@@ -42,6 +46,7 @@ async function pullImageArray(imageArray) {
   return { success: true, payload: photos };
 }
 
+//delete an image
 async function destroyImage(targetImage) {
   try {
     const photoFilePath = path.join(photoFolderPath, `${targetImage}`);
@@ -54,6 +59,7 @@ async function destroyImage(targetImage) {
   }
 }
 
+//delete an array of images
 async function destroyArrayImage(array) {
   try {
     if (Array.isArray(array) === false) {
@@ -73,6 +79,7 @@ async function destroyArrayImage(array) {
   }
 }
 
+//export these functions so that the controller can use them
 module.exports = {
   pullImage,
   pullImageArray,

@@ -1,3 +1,5 @@
+//This route allows the client to choose a card type and generate a new card for that card type.
+
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -18,6 +20,7 @@ const NewCard = () => {
   const { makeCard, getCardTree, toastStyle } = useContext(APIContext);
   const { cardTypes, cardTree, setCardTree } = useContext(CardContext);
 
+  //This useEffect either uses the already defined cardTree (defined in the home component) or fetches the cardTree data from the server.
   useEffect(() => {
     const fetchCardTree = async () => {
       if (Object.keys(cardTree).length === 0) {

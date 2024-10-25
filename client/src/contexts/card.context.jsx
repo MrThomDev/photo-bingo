@@ -1,3 +1,5 @@
+//The data the client will interact with can become convoluted fast. The CardContext is to organize the card into a custom class so that this data becomes much more manageable. The fact that data exist in this context means it is MUCH easier to track, update, and otherwise use across the app.
+
 import { useState, createContext } from "react";
 
 export const CardContext = createContext({

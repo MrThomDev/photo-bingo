@@ -1,3 +1,5 @@
+//This component it unique in that it is mean to be seen at all times. Because of this we use the Fragment and Outlet components from React. In essence, the navigation bar renders and then where the Outlet component is, whatever the endpoint (the Route found in App.js) is rendered in it's place. This way the NavBar is always at the top of the screen.
+
 import { Fragment } from "react";
 import { Outlet, Link } from "react-router-dom";
 

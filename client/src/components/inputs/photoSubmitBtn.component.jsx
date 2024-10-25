@@ -1,3 +1,5 @@
+//This component allows the user to input photos and upload them to the server.
+
 import { useContext } from "react";
 
 import { APIContext } from "../../contexts/api.context";
@@ -21,6 +23,7 @@ const PhotoSubmitBtn = ({ index, setIsPhotoUploading, setPhotoLinkState }) => {
     return `${serverSafeName}_${Date.now()}`;
   };
 
+  //When the user adds a file (the photo) this function then automatically uploads it to the server.
   const handleFileChange = async (event) => {
     setIsPhotoUploading(true);
 
@@ -75,6 +78,7 @@ const PhotoSubmitBtn = ({ index, setIsPhotoUploading, setPhotoLinkState }) => {
     }
   };
 
+  //If the photos are uploaded to the server successfully then the card data on the server needs to be updated as well so it contains the correct photo reference strings.
   const updateServer = async (photosArr) => {
     const serverCopy = new Card(
       activeCard.type,

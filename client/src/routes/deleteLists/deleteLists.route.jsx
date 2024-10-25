@@ -1,3 +1,5 @@
+//This route displays what cards exist on the server and gives the client the option to permenatley delete them.
+
 import { useState, useEffect, useContext } from "react";
 
 import { toast } from "react-toastify";

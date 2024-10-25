@@ -1,3 +1,5 @@
+//This route displays the card with it's respective cells.
+
 import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 
@@ -29,6 +31,7 @@ const DisplayList = () => {
     setIsGridView((old) => !old);
   };
 
+  //This use effect manages the UX effect for loading as well as a server call. The serer call fetches the card data and compiles it into a card object.
   useEffect(() => {
     setIsLoadingCard(true);
     const fetchBingoCardData = async () => {

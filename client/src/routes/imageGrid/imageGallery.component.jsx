@@ -1,3 +1,5 @@
+//This route displays all the images that are associated with a card cell.
+
 import { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ClipLoader } from "react-spinners";

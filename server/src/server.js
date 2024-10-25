@@ -1,5 +1,7 @@
 const http = require("http");
+//import express server
 const app = require("./app");
+//import environmental variables
 require("dotenv").config();
 
 const PORT = process.env.PORT || 8421;

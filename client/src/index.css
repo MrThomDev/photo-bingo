@@ -1,36 +1,6 @@
-/* 
+/* index.css does two main things. First it establishes a design system. This way if the style changes in the future you can update variables here and the whole site will update with it. Secondly it uses resetse the styling for everything using "*." That way we don't have default styling interfearing with the intended styling. */
 
--- TYPOGRAPHY
-
--FONT SIZE SYSTEM (px)
-10 / 12 / 14 / 16 / 18 / 20 / 24 / 30 / 36 / 44 / 52 / 62 / 74 / 86 / 98
-
-- Font Weights
-
-- Line Heights
-Default: 1
-----------------------------------
-
--- COLOR
--Primary: #495057
-
-- Tints: 
-- Shades: 
-- Accents: #74b816, #a9e34b
-- Greys:
-         
-----------------------------------
-
--- 05 SHADOWS
-
--- 06 BORDER-RADIUS
-
--- 07 WHITESPACE
-
-- SPACING SYSTEM (px)
-2 / 4 / 8 / 12 / 16 / 24 / 32 / 48 / 64 / 80 / 96 / 128
-
-*/
+/* It is important to know that this app uses css modules. Meaning that each CSS file will only apply to the component it is attached to.*/
 
 @import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&family=Inter:wght@100..900&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
 

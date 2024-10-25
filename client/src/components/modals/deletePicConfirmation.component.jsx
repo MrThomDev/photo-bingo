@@ -1,3 +1,5 @@
+//This component is used to ask the user if they are sure they want to permantely delete an image when they click the trash icon in the imageGrid route component.
+
 import styles from "./deletePicConfirmation.style.module.css";
 
 const DeletePicConfirmation = ({

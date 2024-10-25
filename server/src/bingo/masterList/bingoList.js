@@ -1,4 +1,5 @@
-const bingoMasterArray = {
+//Every challenge is found in bingoMaster. If you want to add more variety or add a different card type, start here.
+const bingoMaster = {
   japan: [
     //Buying/shopping
     "Buy an onigiri",
@@ -79,4 +80,4 @@ const bingoMasterArray = {
   ],
 };
 
-module.exports = bingoMasterArray;
+module.exports = bingoMaster;

@@ -1,3 +1,5 @@
+//This component acts as a back button for the app. This is particularly helpful when used on a mobile device.
+
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 

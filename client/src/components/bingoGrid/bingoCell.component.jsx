@@ -1,3 +1,5 @@
+//This component shows the indivdual cells of the card grid. It visualizes if the card has been completed (if a photo has been submited), if completed shows a link to the photos, and has the challenge text.
+
 import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 
@@ -38,6 +40,7 @@ const BingoCell = ({ index, isGridView }) => {
     ),
   };
 
+  //This useEffect manages the state of the photos loading and the isFinished state.
   useEffect(() => {
     const photos = activeCard.cell(index).photos;
 

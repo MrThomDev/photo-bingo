@@ -1,3 +1,6 @@
+//image.controller.js handels the logic of all HTML requests.
+
+//These imported functions from image.model.js handel the fetching and manipulation of all data.
 const { destroyImage, pullImage, pullImageArray } = require("./image.model");
 
 function saveImagePostRequest(req, res) {
@@ -48,6 +51,7 @@ async function deleteImage(req, res) {
   }
 }
 
+//Export controller functions so that image.controller.js can use them.
 module.exports = {
   saveImagePostRequest,
   photoArrayPostRequest,

@@ -1,3 +1,5 @@
+//This component is the heart of how the card is visualized. It is a CSS grid. Each cell of that grid has the challenge and photo information.
+
 import { useEffect, useContext } from "react";
 import BingoCell from "./bingoCell.component";
 
@@ -11,6 +13,7 @@ import StarIcon from "../../icons/start.icon";
 const BingoGrid = ({ isGridView }) => {
   const { activeCard, dummyUpdate } = useContext(CardContext);
 
+  //This useEffect checks to see if there is any data in the CardContext to visualize.
   useEffect(() => {
     if (!activeCard || !activeCard.cells) {
       toast.error(

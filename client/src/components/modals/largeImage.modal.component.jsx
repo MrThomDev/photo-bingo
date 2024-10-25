@@ -1,3 +1,5 @@
+//This let's the use see a large version of the image they found in the imageGrid route component.
+
 import { useState, useEffect } from "react";
 
 import styles from "./largeImage.style.module.css";

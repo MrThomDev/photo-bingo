@@ -1,8 +1,11 @@
-import { useEffect, useState, useContext } from "react";
+//The landing page of the app. It gives the client the basic options of viewing an existing card, creating a card, or deleting a card.
+
+import { useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 
 import { toast } from "react-toastify";
 
+//Import our contexts so we can access data outside the scope of this component.
 import { APIContext } from "../../contexts/api.context";
 import { CardContext } from "../../contexts/card.context";
 
@@ -14,6 +17,7 @@ const Home = () => {
   const { getCardTree, toastStyle } = useContext(APIContext);
   const { setCardTypes, cardTree, setCardTree } = useContext(CardContext);
 
+  //This useEffect uses an async call to the server to get which card types are available and what card names are assoicated with each card type. It then saves that data in the cardContext scope.
   useEffect(() => {
     const fetchCards = async () => {
       const { success: cardTreeSuccess, payload: cardTree } =
@@ -47,12 +51,12 @@ const Home = () => {
         <h1
           className={`${styles[`page-title`]} ${styles[`extended-underline`]}`}
         >
-          Japan Photo Bingo
+          Photo Bingo
         </h1>
         <p className={`${styles[`game-description`]}`}>
           The game is simple. Make a new card and give it a name. Be on the
-          lookout for the challenges in each cell as you explore Japan. Submit a
-          picture (or many) to complete the challenge!
+          lookout for the challenges in each cell as you explore your chosen
+          destination . Submit a picture (or many) to complete the challenge!
         </p>
       </header>
       <main>

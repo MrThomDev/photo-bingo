@@ -1,3 +1,5 @@
+//This app makes a lot of server calls. Rather than repeating that code all the time everything involving server calls is here!
+
 import { createContext } from "react";
 
 import { Slide } from "react-toastify";
@@ -67,6 +69,10 @@ export const APIProvider = ({ children }) => {
       const { data: cardTreeResponse } = await axios.get(
         `${serverUrl}/cards/cardTree`
       );
+
+      if (!cardTreeResponse.success) {
+        throw new Error(cardTreeResponse);
+      }
 
       return cardTreeResponse;
     } catch (error) {
